@@ -1,0 +1,67 @@
+<!DOCTYPE html>    
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+<h1 class="bg-secondary"><em>Curiosity Weather</em></h1> 
+
+<div class="container">
+<div class="table-responsive">
+            <table class="table">        
+              <thead>
+                <tr>
+                  <th colspan="2">Time</th>   
+                  <th colspan="3">Pressure (Pa)</th> 
+                  <th>Photo</th>
+                </tr>
+              </thead>          
+              <tbody>
+                <tr>   
+                  <td class="gray">Date</td>
+                  <td class="gray">Sol</td> 
+                  <td>Max.</td>
+                  <td>Avg.</td>
+                  <td>Min.</td>
+                  <td></td>
+                </tr>
+                <tr class="clickRow" *ngFor = " let sols of weatherData" (click)="onClick()">
+                    <td class="gray">{{sols.date}}</td>
+                   <td class="gray">{{sols.sol}}</td>
+                   <td>{{sols.maxTemp}}</td>
+                   <td>{{sols.avgTemp}}</td>
+                   <td>{{sols.minTemp}}</td>
+                   <td> {{getMatchedPhoto(sols.sol)}}
+                      <div *ngIf = "foundMatch; else elseBlock">
+                           <img [src]= 'matchedPhoto'/>                      
+                    </div> 
+                        <ng-template #elseBlock>
+                            No Image found.
+                          </ng-template>                      
+                  </td>
+                </tr>               
+              </tbody>
+            </table>   
+            <div>
+                <form class="camera">
+                   <table class= "form">
+                       <select *ngIf="showForm" class="form-control" name="cameraSelected"[(ngModel)]="selectedCamera"  (change)="cameraClicked()">                 
+                        <option [value]="undefined" selected>Select a camera...</option>  
+                        <option *ngFor="let item of cameraName"  [value]="item" >{{item}}</option>                       
+                   </select>       
+                   </table>   
+                </form> 
+                <div class="outer-grid"> 
+                <div class="inner-grid" *ngFor="let item of allPhotos">
+                    <img [src]='item'/>
+                </div>
+            </div>         
+            </div>     
+          </div>
+        </div>
+    </body>
+</html>
